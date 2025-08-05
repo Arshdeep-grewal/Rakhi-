@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Raksha Bandhan Behen!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            background: linear-gradient(135deg, #ffffff 0%, #fef7f7 50%, #fff5f5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .main-heading {
+            font-size: 2.8rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #dc2626, #ef4444, #f87171, #fca5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(220, 38, 38, 0.1);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .sub-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #dc2626;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .cake-container {
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .cake-image {
+            width: 220px;
+            height: 220px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(220, 38, 38, 0.1);
+            animation: fadeIn 1s ease-out 1s both;
+            /* Remove white background from PNG */
+            mix-blend-mode: multiply;
+            background: transparent;
+        }
+
+        .cake-image:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.2);
+        }
+
+        .message {
+            margin: 30px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message p {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #374151;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(220, 38, 38, 0.1);
+            border-left: 4px solid #dc2626;
+        }
+
+        .next-button {
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            cursor: poi Prototynter;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 5px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .next-button.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .next-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4);
+            background: linear-gradient(45deg, #b91c1c, #dc2626);
+        }
+
+        .balloon {
+            position: fixed;
+            font-size: 2rem;
+            z-index: 1000;
+            pointer-events: none;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        .sparkle {
+            position: absolute;
+            color: #dc2626;
+            font-size: 1.2rem;
+            animation: sparkle 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 1rem;
+            color: rgba(220, 38, 38, 0.4);
+            pointer-events: none;
+            z-index: -1;
+            animation: fl PrototyoatUp 8s linear forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.2) rotate(360deg);
+            }
+        }
+
+        /* Clean mobile responsiveness */
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.2rem;
+            }
+            .cake-image {
+                width: 180px;
+                height: 180px;
+            }
+            .message p {
+                font-size: 1rem;
+                padding: 15px;
+            }
+            .next-button {
+                padding: 12px 28px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-heading {
+                font-size: 1.8rem;
+            }
+            .cake-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-heading">Behen, Cake Cut Karoo!</h1>
+        <p class="sub-text">Click Karo ↓</p>
+        
+        <div class="cake-container">
+            <img src="cake.webp" alt="Cake" id="cakeImage" class="cake-image">
+        </div>
+
+        <div class="message" id="message">
+            <p>🎊 Happy Raksha Bandhan, my dearest sister! 🎊</p>
+            <p>You are not just my sister, but my best friend, my protector, and my greatest blessing. </p>
+            <p>May this Raksha Bandhan bring you endless joy, success, and happiness. ❤️</p>
+        </div>
+
+        <button class="next-button" id="nextButton" onclick="goToNextPage()">Next Surprise</button>
+    </div>
+
+    <script>
+        const cakeImage = document.getElementById('cakeImage');
+        const message = document.getElementById('message');
+        const nextButton = document.getElementById('nextButton');
+        let clicked = false;
+
+        const balloonEmojis = ['🎈', '🎊', '🎉', '🎁', '💖', '🌟', '✨', '🎀'];
+        const sparkleEmojis = ['✨', '⭐', '🌟', '💫'];
+
+        cakeImage.addEventListener('click', function() {
+            if (clicked) return;
+            clicked = true;
+
+            // Create balloons
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    createBalloon();
+                }, i * 150);
+            }
+
+            // Create sparkles around cake
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createSparkle();
+                }, i * 80);
+            }
+
+            // Show message and button after delay
+            setTimeout(() => {
+                message.classList.add('show');
+            }, 1000);
+
+            setTimeout(() => {
+                nextButton.classList.add('show');
+            }, 1500);
+        });
+
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+            
+            balloon.style.left = Math.random() * window.innerWidth + 'px';
+            balloon.style.bottom = '0px';
+            
+            document.body.appendChild(balloon);
+
+            setTimeout(() => {
+                balloon.remove();
+            }, 3000);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+            
+            const rect = cakeImage.getBoundingClientRect();
+            const randomX = rect.left + (Math.random() - 0.5) * rect.width * 1.5;
+            const randomY = rect.top + (Math.random() - 0.5) * rect.height * 1.5;
+            
+            sparkle.style.left = randomX + 'px';
+            sparkle.style.top = randomY + 'px';
+            
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1500);
+        }
+
+        function goToNextPage() {
+            const container = document.querySelector('.container');
+            container.style.transition = 'opacity 0.7s';
+            container.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'last.html';
+            }, 700);
+        }
+
+        // Create floating hearts for ambiance
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '💖';
+            
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = window.innerHeight + 'px';
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Create floating hearts every 4 seconds
+        setInterval(createFloatingHeart, 4000);
+
+        // Handle image load error
+        cakeImage.addEventListener('error', function() {
+            this.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.innerHTML = '🎂';
+            fallback.style.fontSize = '4rem';
+            fallback.style.cursor = 'pointer';
+            fallback.onclick = cakeImage.onclick;
+            this.parentNode.appendChild(fallback);
+        });
+    </script>
+</body>
+</html>
+

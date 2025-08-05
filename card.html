@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Our Memories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            transition: all 1.5s ease-in-out;
+            position: relative;
+        }
+
+        body.light-mode {
+            background: radial-gradient(ellipse at center, rgba(255, 182, 193, 0.1) 0%, rgba(255, 255, 255, 1) 70%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .initial-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .initial-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .light-button {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .light-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .main-content {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-heading {
+            color: #FF69B4;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+            text-align: center;
+        }
+
+        .main-heading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cards-container {
+            width: 100%;
+            max-width: 1200px;
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cards-wrapper {
+            overflow: hidden;
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        .cards-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .memory-card {
+            flex: 0 0 350px;
+            height: 380px;
+            background: white;
+            border: 3px solid #FFB6C1;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.8s ease-out forwards;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .memory-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.2);
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .memory-caption {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-arrows {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 105, 180, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .nav-arrows:hover {
+            background: #FF69B4;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-left {
+            left: -30px;
+        }
+
+        .nav-right {
+            right: -30px;
+        }
+
+        .next-button {
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-top: 30px;
+        }
+
+        .next-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s ease-out 0.5s;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+            filter: brightness(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .light-button {
+                font-size: 18px;
+                padding: 15px 30px;
+            }
+
+            .main-heading {
+                font-size: 32px;
+                margin-bottom: 30px;
+            }
+
+            .memory-card {
+                flex: 0 0 280px;
+                height: 320px;
+                padding: 15px;
+            }
+
+            .memory-card img {
+                height: 220px;
+            }
+
+            .memory-caption {
+                font-size: 14px;
+            }
+
+            .nav-arrows {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .nav-left {
+                left: -25px;
+            }
+
+            .nav-right {
+                right: -25px;
+            }
+
+            .cards-track {
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-heading {
+                font-size: 26px;
+                margin-bottom: 25px;
+            }
+
+            .memory-card {
+                flex: 0 0 250px;
+                height: 290px;
+                padding: 12px;
+            }
+
+            .memory-card img {
+                height: 190px;
+            }
+
+            .memory-caption {
+                font-size: 13px;
+            }
+
+            .cards-track {
+                gap: 20px;
+            }
+
+            .nav-left {
+                left: -20px;
+            }
+
+            .nav-right {
+                right: -20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="initial-screen" id="initialScreen">
+        <button class="light-button" id="lightButton">Light Our Memories</button>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <h1 class="main-heading" id="mainHeading">Our Childhood Memories</h1>
+        
+        <div class="cards-container">
+            <button class="nav-arrows nav-left" id="navLeft">‹</button>
+            <button class="nav-arrows nav-right" id="navRight">›</button>
+            
+            <div class="cards-wrapper">
+                <div class="cards-track" id="cardsTrack">
+                    <div class="memory-card">
+                        <img src="pic1.JPG" alt="Memory 1">
+                        <p class="memory-caption">Who needs enemies when you have a sister like this? 😂</p>
+                    </div>
+                    <div class="memory-card">
+                        <img src="pc2.JPG" alt="Memory 2">
+                        <p class="memory-caption">The chocolate thief of my childhood 🍫</p>
+                    </div>
+                    <div class="memory-card">
+                        <img src="vss.JPG" alt="Memory 3">
+                        <p class="memory-caption">Forever my secret-keeper ❤️</p>
+                    </div>
+                    <div class="memory-card">
+                        <img src="100_0333.JPG" alt="Memory 4">
+                        <p class="memory-caption">Partners in every mischievous adventure 🌟</p>
+                    </div>
+                    <div class="memory-card">
+                        <img src="100_0349.JPG" alt="Memory 5">
+                        <p class="memory-caption">From fights to friendship - you're irreplaceable 💕</p>
+                    </div>
+                    <div class="memory-card">
+                        <img src="DSC01956.JPG" alt="Memory 6">
+                        <p class="memory-caption">Growing up together, one memory at a time 🌸</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="next-button" id="nextButton">Go to Next Page</button>
+    </div>
+
+    <script>
+        const lightButton = document.getElementById('lightButton');
+        const initialScreen = document.getElementById('initialScreen');
+        const mainContent = document.getElementById('mainContent');
+        const mainHeading = document.getElementById('mainHeading');
+        const nextButton = document.getElementById('nextButton');
+        const cardsTrack = document.getElementById('cardsTrack');
+        const navLeft = document.getElementById('navLeft');
+        const navRight = document.getElementById('navRight');
+
+        let currentIndex = 0;
+        const cardWidth = 380; // updated card width + gap
+        const maxIndex = 3; // adjust based on number of cards and container width
+
+        // Light button click handler
+        lightButton.addEventListener('click', () => {
+            // Fade out initial screen
+            initialScreen.classList.add('hidden');
+            
+            // Change background to light mode
+            setTimeout(() => {
+                document.body.classList.add('light-mode');
+                mainContent.classList.add('visible');
+            }, 500);
+
+            // Show heading after delay
+            setTimeout(() => {
+                mainHeading.classList.add('visible');
+            }, 1500);
+
+            // Animate cards one by one
+            const cards = document.querySelectorAll('.memory-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animationDelay = `${index * 0.2}s`;
+                }, 2000 + (index * 200));
+            });
+
+            // Show next button after all cards are loaded
+            setTimeout(() => {
+                nextButton.classList.add('visible');
+            }, 2000 + (cards.length * 200) + 500);
+        });
+
+        // Navigation functionality
+        function updateCardsPosition() {
+            const translateX = -currentIndex * cardWidth;
+            cardsTrack.style.transform = `translateX(${translateX}px)`;
+        }
+
+        navLeft.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCardsPosition();
+            }
+        });
+
+        navRight.addEventListener('click', () => {
+            if (currentIndex < maxIndex) {
+                currentIndex++;
+                updateCardsPosition();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+
+        cardsTrack.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        cardsTrack.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            const diffX = startX - endX;
+
+            if (Math.abs(diffX) > 50) { // minimum swipe distance
+                if (diffX > 0 && currentIndex < maxIndex) {
+                    currentIndex++;
+                    updateCardsPosition();
+                } else if (diffX < 0 && currentIndex > 0) {
+                    currentIndex--;
+                    updateCardsPosition();
+                }
+            }
+        });
+
+        // Next page button (you can add navigation logic here)
+        nextButton.addEventListener('click', () => {
+            mainContent.style.transition = 'opacity 0.7s';
+            mainContent.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'cake.html'; // Change to your next page filename
+            }, 700);
+        });
+    </script>
+</body>
+</html>
+

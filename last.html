@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For My Beloved Sister - Raksha Bandhan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Quicksand:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .fade-in-image {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInImage 1s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 {
+            animation-delay: 1s;
+        }
+        .delay-2 {
+            animation-delay: 1.6s;
+        }
+        /* Raining Rakhi Animation */
+        .rakhi-rain {
+            position: fixed;
+            top: -50px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        .rakhi-fall {
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* Custom text styling */
+        .elegant-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+        .heart-pulse {
+            animation: heartPulse 2s ease-in-out infinite;
+        }
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1);}
+            50% { transform: scale(1.1);}
+        }
+        /* Pink heading styling */
+        .pink-heading {
+            background: linear-gradient(135deg, #ec4899, #f472b6, #fb7185);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(236, 72, 153, 0.2);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        /* Pink Next Page Button */
+        .next-button {
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+            color: white;
+            border: none;
+            padding: 14px 36px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.3);
+            font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-top: 2.5rem;
+        }
+        .next-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease-out 0.3s;
+        }
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+            filter: brightness(1.05);
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center relative">
+    <!-- Raining Rakhi Background Animation -->
+    <div id="rakhiRain" class="fixed inset-0 pointer-events-none z-0"></div>
+    <!-- Main Content Container -->
+    <div class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-8" id="mainContent">
+        <!-- Pink Heading -->
+        <div class="mb-8 md:mb-12 fade-in-up">
+            <h1 class="pink-heading text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-center font-bold tracking-wider">
+                Happy Raksha Bandhan
+            </h1>
+        </div>
+        <!-- Image Container -->
+        <div class="mb-8 md:mb-12">
+            <img 
+                id="sisterImage" 
+                src="WhatsApp Image 2025-08-05 at 16.29.10.jpeg" 
+                alt="Raksha Bandhan" 
+                class="fade-in-image w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-cover rounded-2xl shadow-2xl"
+            >
+        </div>
+        <!-- Text Lines Container -->
+        <div class="text-center space-y-4 md:space-y-6 max-w-md md:max-w-lg">
+            <div class="fade-in-up delay-1">
+                <p class="elegant-text text-lg md:text-xl lg:text-2xl text-gray-700">
+                    No matter how far we are…
+                </p>
+            </div>
+            <div class="fade-in-up delay-2">
+                <p class="elegant-text font-medium text-2xl md:text-4xl lg:text-5xl text-red-600 flex items-center justify-center gap-2" style="margin-top: 1.5rem; font-weight: 500;">
+                    I'll always protect you 
+                    <span class="heart-pulse text-red-500 text-3xl md:text-5xl">❤️</span>
+                </p>
+            </div>
+        </div>
+        <!-- Pink Next Page Button -->
+        <button class="next-button" id="nextButton">Go to Next Page</button>
+    </div>
+    <script>
+        // Show button faster (after fade-ins)
+        window.addEventListener('load', function() {
+            // Start raining animation after a short delay
+            setTimeout(createRakhiRain, 600);
+
+
+            // Reveal "Go to Next Page" button a bit sooner
+            setTimeout(function() {
+                document.getElementById('nextButton').classList.add('visible');
+            }, 2100); // about when second text line appears
+        });
+
+
+        // Pink "Go to Next Page" button navigation
+        document.getElementById('nextButton').addEventListener('click', function() {
+            const mainContent = document.getElementById('mainContent');
+            mainContent.style.transition = 'opacity 0.5s';
+            mainContent.style.opacity = '0';
+            setTimeout(function() {
+                window.location.href = 'mycode.html';  // Changed to your desired page
+            }, 500);
+        });
+
+
+        // Raining Rakhi Animation
+        function createRakhiRain() {
+            const rakhiRainContainer = document.getElementById('rakhiRain');
+            // Create SVG Rakhi elements since we can't use external images
+            function createRakhiSVG() {
+                const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svg.setAttribute('width', '20');
+                svg.setAttribute('height', '20');
+                svg.setAttribute('viewBox', '0 0 24 24');
+                svg.innerHTML = `
+                    <circle cx="12" cy="12" r="8" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.7"/>
+                    <circle cx="12" cy="12" r="4" fill="#fbbf24" opacity="0.6"/>
+                    <path d="M12 4v16M4 12h16" stroke="#f59e0b" stroke-width="1" opacity="0.5"/>
+                `;
+                return svg;
+            }
+            function createFallingRakhi() {
+                const rakhiElement = document.createElement('div');
+                rakhiElement.className = 'rakhi-rain rakhi-fall';
+                rakhiElement.appendChild(createRakhiSVG());
+                // Random horizontal position
+                rakhiElement.style.left = Math.random() * 100 + 'vw';
+                // Random animation duration between 8-13 seconds (a bit faster)
+                const duration = Math.random() * 5 + 8;
+                rakhiElement.style.animationDuration = duration + 's';
+                // Random delay
+                rakhiElement.style.animationDelay = Math.random() * 1.5 + 's';
+                rakhiRainContainer.appendChild(rakhiElement);
+                // Remove element after animation completes
+                setTimeout(() => {
+                    if (rakhiElement.parentNode) {
+                        rakhiElement.parentNode.removeChild(rakhiElement);
+                    }
+                }, (duration + 2) * 1000);
+            }
+            // Create initial rakhis
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createFallingRakhi, i * 600);
+            }
+            // Continue creating rakhis every 1.5 seconds (faster)
+            setInterval(createFallingRakhi, 1500);
+        }
+        // Error handling for image loading
+        document.getElementById('sisterImage').addEventListener('error', function() {
+            // If image fails to load, create a placeholder with Rakhi design
+            this.style.display = 'none';
+            const placeholder = document.createElement('div');
+            placeholder.className = 'fade-in-image w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-orange-200 to-red-200 rounded-2xl shadow-2xl flex items-center justify-center';
+            placeholder.innerHTML = `
+                <div class="text-center">
+                    <div class="text-6xl mb-2">🎁</div>
+                    <p class="text-gray-600 elegant-text">Raksha Bandhan</p>
+                </div>
+            `;
+            this.parentNode.appendChild(placeholder);
+        });
+        // Parallax on scroll (optional enhancement)
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const rakhiElements = document.querySelectorAll('.rakhi-rain');
+            rakhiElements.forEach(rakhi => {
+                rakhi.style.transform = `translateY(${scrolled * 0.2}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
